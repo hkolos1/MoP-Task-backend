@@ -7,5 +7,23 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.1",
     "nodemon": "^2.0.15"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "moptask-backend",
+  "version": "1.0.0",
+  "main": "config.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hkolos1/moptask-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hkolos1/moptask-backend/issues"
+  },
+  "homepage": "https://github.com/hkolos1/moptask-backend#readme",
+  "description": ""
 }
