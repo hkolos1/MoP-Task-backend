@@ -15,8 +15,10 @@ mongoose.connection.once('open', () => {
 });
 
 const UserRouter = require('./routes/UserRoutes');
+const QuestionRouter = require('./routes/QuestionRoutes')
 
 server.use('/users', UserRouter);
+server.use('/questions', QuestionRouter);
 
 server.get('/health', (req, res) => {
     res.send({
