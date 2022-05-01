@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Question = require('../models/QuestionsModel');
+const User = require("../models/UserModel");
 
 router.post('/add', async ({body}, res) => {
 
@@ -13,13 +14,35 @@ router.post('/add', async ({body}, res) => {
     }
 });
 
+router.get('/not-my-questions/:id', async ({params}, res) => {
+    try {
+        const id = params.id;
+        if(!id) return res.status(400).json({message: 'Invalid ID'});
+        const myQuestions = await Question.find( {
+            userID: {$ne: id}
+        }).sort({date: 'desc'});
+        const users = await User.find();
+        const newQs = myQuestions.map(q => {
+            const user = users.find(user => user._id.toString() === q.userID);
+            if(!user) return q._doc;
+            return {
+                ...q._doc,
+                nameSurname: `${user.name} ${user.surname}`
+            }
+        });
+        res.json(newQs);
+    } catch(e) {
+        res.status(400).json({message: e.message || 'Something went wrong'});
+    }
+});
+
 router.get('/my-questions/:id', async ({params}, res) => {
     try {
         const id = params.id;
         if(!id) return res.status(400).json({message: 'Invalid ID'});
         const myQuestions = await Question.find( {
             userID: id
-        });
+        }).sort({date: 'desc'});
         res.json(myQuestions);
     } catch(e) {
         res.status(400).json({message: e.message || 'Something went wrong'});
@@ -29,7 +52,16 @@ router.get('/my-questions/:id', async ({params}, res) => {
 router.get('/', async (req, res) => {
     try {
         const qs = await Question.find().sort({date: 'desc'});
-        res.json(qs);
+        const users = await User.find();
+        const newQs = qs.map(q => {
+            const user = users.find(user => user._id.toString() === q.userID);
+            if(!user) return q._doc;
+            return {
+                ...q._doc,
+                nameSurname: `${user.name} ${user.surname}`
+            }
+        });
+        res.json(newQs);
     } catch(e) {
         res.status(400).json({message: e.message || 'Something went wrong'});
     }
