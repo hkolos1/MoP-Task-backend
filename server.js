@@ -20,20 +20,17 @@ const LikeRouter = require('./routes/LikeRoutes');
 const DislikeRouter = require('./routes/DislikeRoutes');
 const ReplyRouter = require('./routes/ReplyRoutes');
 
-server.use('/users', UserRouter);
-server.use('/questions', QuestionRouter);
-server.use('/likes', LikeRouter);
-server.use('/dislikes', DislikeRouter);
-server.use('/replies', ReplyRouter);
-
 server.get('/health', (req, res) => {
     res.send({
         message: 'server running'
     })
 });
 
-
-
+server.use('/users', UserRouter);
+server.use('/questions', QuestionRouter);
+server.use('/likes', LikeRouter);
+server.use('/dislikes', DislikeRouter);
+server.use('/replies', ReplyRouter);
 
 server.listen(PORT || 5000, () => {
     console.log(`server_running-port-${PORT || 5000}`);
