@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const {PORT, ATLAS_URI} = require('./config');
+const {PORT} = require('./config');
 require('dotenv').config();
 
 const server = express();
@@ -9,7 +9,7 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-mongoose.connect(ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://hkolos1:galaxya51@cluster0.x4ion.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once('open', () => {
     console.log('mongodb-connection-established');
 });
