@@ -27,6 +27,7 @@ router.post('/register', async ({body}, res) => {
         const hash = await bcrypt.hash(password, salt);
 
         const user = await User.create({email, password: hash, name, surname});
+        user.password = null;
         res.json({user});
     }catch (e){
         res.status(400).json({message: e.message || 'Something went wrong'});

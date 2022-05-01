@@ -18,11 +18,15 @@ const questionSchema = new Schema({
         trim: true,
         required: true,
     },
-    like: {
-        type: Number,
+    userID: {
+        type: String,
+        required: true,
+        trim: true,
     },
-    dislike: {
-        type: Number,
+    reply: {
+        type: String,
+        required: false,
+        trim: true
     }
 });
 
