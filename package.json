@@ -14,7 +14,6 @@
   "name": "moptask-backend",
   "version": "1.0.0",
   "main": "config.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hkolos1/moptask-backend.git"
