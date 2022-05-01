@@ -26,6 +26,8 @@ server.get('/health', (req, res) => {
     })
 });
 
+server.use('/login', UserRouter);
+server.use('/register', UserRouter);
 server.use('/users', UserRouter);
 server.use('/questions', QuestionRouter);
 server.use('/likes', LikeRouter);
