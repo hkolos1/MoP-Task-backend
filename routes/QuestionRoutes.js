@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Question = require('../models/QuestionsModel');
 const User = require("../models/UserModel");
+const Like = require("../models/LikeModel");
 
 router.post('/add', async ({body}, res) => {
 
@@ -10,6 +11,30 @@ router.post('/add', async ({body}, res) => {
         const question = await Question.create({title, text, userID, date: Date.now()});
         res.json({question});
     }catch (e){
+        res.status(400).json({message: e.message || 'Something went wrong'});
+    }
+});
+
+router.get('/most-replies', async (req, res) => {
+    try {
+        const questions = await Question.find();
+        const likes = await Like.find();
+        const newQuestions = questions.map(q => {
+            const numberOfLikes = likes.reduce((acc, like) => {
+                if(q._id.toString() === like.questionID) return acc + 1;
+                return acc;
+            }, 0);
+            return {
+                ...q._doc,
+                numberOfLikes
+            }
+        }).sort((a,b) => {
+            if(a.numberOfLikes > b.numberOfLikes) return -1;
+            else if(a.numberOfLikes < b.numberOfLikes) return 1;
+            return 0;
+        });
+        res.send(newQuestions);
+    } catch (e) {
         res.status(400).json({message: e.message || 'Something went wrong'});
     }
 });
